@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-threads = 24
+threads = 1
 
 default_params = OrderedDict([
     ############ Common params:
