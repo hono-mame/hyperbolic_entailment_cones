@@ -1,1 +1,4 @@
 /__pycache__
+data/wnjpn.db
+logs_*
+saved_models_*
