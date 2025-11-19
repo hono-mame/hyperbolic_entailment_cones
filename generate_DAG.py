@@ -24,12 +24,14 @@ def csv_to_dag(df, output_tsv, root_node="entity"):
     G.add_node(root_node)
 
     removed_edges = 0
+    print("--- グラフのDAG化（サイクル除去） ---")
     while not nx.is_directed_acyclic_graph(G):
         try:
             cycle = next(nx.simple_cycles(G))
         except StopIteration:
             break
         if len(cycle) < 2:
+            # 自己ループ (u -> u) の処理
             u = cycle[0]
             if u != root_node:
                 G.remove_edge(u, u)
@@ -44,10 +46,13 @@ def csv_to_dag(df, output_tsv, root_node="entity"):
             else:
                 print(f"Cycle involves root, skipped: {cycle}")
     
-    print(f"Removed {removed_edges} edges to make DAG")
+    print(f"サイクル除去により削除されたエッジ数: {removed_edges}")
+    print("---------------------------------")
 
-    # 各連結成分を root_node に接続
-    for comp in nx.weakly_connected_components(G):
+
+    print("--- 連結成分の統合 ---")
+    connected_components = list(nx.weakly_connected_components(G))
+    for i, comp in enumerate(connected_components):
         comp_nodes = set(comp)
         if root_node in comp_nodes:
             continue
@@ -55,14 +60,17 @@ def csv_to_dag(df, output_tsv, root_node="entity"):
         roots = [n for n in comp_subgraph.nodes if comp_subgraph.in_degree(n) == 0]
         for r in roots:
             G.add_edge(r, root_node)
-            print(f"Connecting component root {r} -> {root_node}")
+        if roots:
+            print(f"コンポーネント {i+1} の {len(roots)}個のローカルルートを {root_node} に接続しました。")
 
-    # TSV 出力
+    print("--- グラフのTSV出力 ---")
     with open(output_tsv, 'w', encoding='utf-8') as f:
         for u, v in G.edges():
             f.write(f"{u}\t{v}\n")
 
-    print(f"DAG ready: {output_tsv}, Nodes: {G.number_of_nodes()}, Edges: {G.number_of_edges()}")
+    print(f"DAG生成完了: {output_tsv}")
+    print(f"ノード数: {G.number_of_nodes()}, エッジ数: {G.number_of_edges()}")
+    print("----------------------")
     return G
 
 def main():
@@ -78,32 +86,59 @@ def main():
         print(f"ディレクトリ作成: {base_path}")
 
     db_path = "data/wnjpn.db" 
+    conn = None 
+    df = pd.DataFrame() 
+
     try:
         conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        
+        print("--- DBインデックス処理 ---")
+        print("インデックスの確認と追加を実行...")
+
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_sl_s1_s2_link ON synlink(synset1, synset2, link);")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_sy_synset_pos ON synset(synset, pos);")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_se_swl ON sense(synset, wordid, lang);")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_w_wid_lang ON word(wordid, lang);")
+        
+        conn.commit() 
+        print("インデックスの確認/追加が完了しました。")
+        print("--------------------------")
+
+        query = """
+        SELECT 
+            w1.lemma AS hyper,
+            w2.lemma AS hypo
+        FROM synlink AS sl
+        INNER JOIN synset AS sy1 ON sy1.synset = sl.synset1
+        INNER JOIN synset AS sy2 ON sy2.synset = sl.synset2
+        INNER JOIN sense AS se1 ON se1.synset = sy1.synset
+        INNER JOIN sense AS se2 ON se2.synset = sy2.synset
+        INNER JOIN word AS w1 ON w1.wordid = se1.wordid
+        INNER JOIN word AS w2 ON w2.wordid = se2.wordid
+        WHERE sl.link = 'hypo'
+          AND se1.lang = 'jpn' AND se2.lang = 'jpn'
+          AND w1.lang = 'jpn' AND w2.lang = 'jpn'
+        """
+        if filter_nouns:
+            query += " AND sy1.pos = 'n' AND sy2.pos = 'n'"
+
+        print("データ抽出中...")
+        df = pd.read_sql_query(query, conn)
+        print(f"抽出完了。総行数: {len(df)}")
     except sqlite3.Error as e:
-        print(f"DB接続エラー: {e}")
+        print(f"DB接続または処理エラー: {e}")
         return
-
-    query = """
-    SELECT 
-        w1.lemma AS hyper,
-        w2.lemma AS hypo
-    FROM synlink AS sl
-    INNER JOIN synset AS sy1 ON sy1.synset = sl.synset1
-    INNER JOIN synset AS sy2 ON sy2.synset = sl.synset2
-    INNER JOIN sense AS se1 ON se1.synset = sy1.synset
-    INNER JOIN sense AS se2 ON se2.synset = sy2.synset
-    INNER JOIN word AS w1 ON w1.wordid = se1.wordid
-    INNER JOIN word AS w2 ON w2.wordid = se2.wordid
-    WHERE sl.link = 'hypo'
-      AND se1.lang = 'jpn' AND se2.lang = 'jpn'
-      AND w1.lang = 'jpn' AND w2.lang = 'jpn'
-    """
-    if filter_nouns:
-        query += " AND sy1.pos = 'n' AND sy2.pos = 'n'"
-
-    df = pd.read_sql_query(query, conn)
-    conn.close()
+    finally:
+        if conn:
+            conn.close() 
+            
+    initial_rows = len(df)
+    df = df[df['hypo'] != df['hyper']].copy()
+    removed_loops = initial_rows - len(df)
+    
+    if removed_loops > 0:
+        print(f"データ前処理：入力データから {removed_loops} 件の自己ループエッジを除去しました。")
 
     if n_head > 0 and n_head < len(df):
         df = df.head(n_head)
