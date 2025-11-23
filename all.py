@@ -2,6 +2,8 @@ from xml.parsers.expat import model
 from joblib import Parallel, delayed
 import multiprocessing
 import csv
+import pickle
+import torch
 
 from params import *
 from eucl_simple_model import *
@@ -272,13 +274,6 @@ def train_eval_one_model(logger_name, model_name, new_params, output_file):
 
     logger.info('\n\n ======> best OVERALL ' + best_str)
 
-    # TODO: .pkl または .pt でも保存できるようにする
-    # Save the model
-    #if params['save']:
-    #    os.makedirs(models_directory, exist_ok=True) # ディレクトリ作成は必要
-    #    # model_file = os.path.join(models_directory, "hypcones_model.pkl")
-    #    model.save(output_file)
-
     # Save the model (as CSV)
     if params['save']:
         os.makedirs(models_directory, exist_ok=True)
@@ -318,6 +313,33 @@ def train_eval_one_model(logger_name, model_name, new_params, output_file):
 
         except Exception as e:
             logger.error(f"Failed to save combined CSV: {e}")
+
+    # .pt 形式で保存
+    if params['save']:
+        try:
+            pickle_filepath = base_filepath + "_model.pt"
+
+            # vectors を numpy -> torch.Tensor に変換
+            vectors_tensor = torch.from_numpy(model.kv.syn0).cpu()
+            #vectors_np = model.kv.syn0.astype('float32')
+            #vectors_tensor = torch.from_numpy(vectors_np).to('cuda')
+
+            save_dict = {
+                "vectors": vectors_tensor,
+                "vocab": model.kv.index2word,
+                "best_init_test_f1": best_test_f1_init,
+                "best_init_valid_f1": best_valid_f1_init,
+                "best_cones_test_f1": best_test_f1,
+                "best_cones_valid_f1": best_valid_f1,
+                "best_alpha": getattr(model, "K", None),
+                "params": params,
+            }
+
+            # torch.save を採用(Tensorに対応するため)
+            torch.save(save_dict, pickle_filepath)
+
+        except Exception as e:
+            logger.error(f"Failed to save pickle: {e}")
 
     results_strings = ['best ' + best_str_init + ' ; best ' + best_str]
     results_strings.append(('\n >>>>>>>>> INIT = \n%s \n---------------------\n' +

@@ -9,3 +9,4 @@ RUN pip install "smart_open>=4.0.0,<5.0.0"
 RUN pip install dataclasses
 RUN pip install pandas
 RUN pip install networkx
+RUN pip install torch 

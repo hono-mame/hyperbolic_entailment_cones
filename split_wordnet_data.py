@@ -216,5 +216,5 @@ data_directory = os.path.join(current_directory, 'data', 'maxn')
 # full_data_filepath = os.path.join(data_directory, 'mammal_closure.tsv')
 # create_all_data(full_data_filepath, 'mammal.n.01')
 
-full_data_filepath = os.path.join(data_directory, 'noun_closure.tsv')
-create_all_data(full_data_filepath, 'entity.n.01')
+full_data_filepath = os.path.join(data_directory, 'jp_nouns_head_1000_closure.tsv')
+create_all_data(full_data_filepath, 'entity')

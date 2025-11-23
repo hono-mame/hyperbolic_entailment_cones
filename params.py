@@ -4,12 +4,12 @@ threads = 1
 
 default_params = OrderedDict([
     ############ Common params:
-    ('wn', 'noun'), # mammal or noun
+    ('wn', 'jp_nouns_head_10000'), # mammal or noun
     ('print_every', 20),
-    ('save', False), # Whether to save the model in the folder saved_models/
+    ('save', True), # Whether to save the model in the folder saved_models/
     ('num_negative', 10),  # Number of negative samples to use
     ('batch_size', 10),  # Size of batch to use for training
-    ('epsilon', 1e-5),
+    ('epsilon', 1e-6), # default = 1e-5
     ('seed', 0),
 
     ('dim', 5),
