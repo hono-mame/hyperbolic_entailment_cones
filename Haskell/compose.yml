@@ -1,0 +1,8 @@
+services:
+  entailment_cones:
+    build: .
+    volumes:
+      - .:/home/ubuntu/hyperbolic_entailment_cones/Haskell
+    ports:
+      - "8891:8888"
+    command: jupyter lab --ip 0.0.0.0 --NotebookApp.token=''
