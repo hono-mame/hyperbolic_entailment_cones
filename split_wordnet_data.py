@@ -34,8 +34,21 @@ def create_all_data(full_edges_data_file, root_str):
     num_edges = 0
     with open(full_edges_data_file, 'r') as f:
         for i, line in enumerate(f):
-            child, parent = line.split() ## Reverse order in the file.
-            if child == parent or parent == root_str:  # Exclude root edges.
+            # 行頭・行末の空白を削除し、空行ならスキップ
+            line = line.strip()
+            if not line:
+                continue
+            
+            # 最初の2要素だけを取得
+            parts = line.split()
+            if len(parts) < 2:
+                print(f"Warning: Skipped line {i+1} due to insufficient values: {line}")
+                continue
+             
+            # 最初の2要素を child, parent とする
+            child, parent = parts[0], parts[1]
+        
+            if child == parent or parent == root_str:
                 continue
             child_idx = node2idx[child]
             parent_idx = node2idx[parent]
@@ -216,5 +229,5 @@ data_directory = os.path.join(current_directory, 'data', 'maxn')
 # full_data_filepath = os.path.join(data_directory, 'mammal_closure.tsv')
 # create_all_data(full_data_filepath, 'mammal.n.01')
 
-full_data_filepath = os.path.join(data_directory, 'jp_nouns_head_1000_closure.tsv')
+full_data_filepath = os.path.join(data_directory, 'cpp_test_closure.tsv')
 create_all_data(full_data_filepath, 'entity')
