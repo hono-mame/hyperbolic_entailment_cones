@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Lib
+      NeuralDTSBuilderUtils
   other-modules:
       Paths_Haskell
   autogen-modules:
@@ -47,6 +48,7 @@ executable Haskell-exe
   other-modules:
       NeuralDTSBuilder
       NeuralDTSBuilderNoPickle
+      NeuralDTSBuilderTest
       ParamsLoader
       Paths_Haskell
   autogen-modules:
@@ -69,6 +71,7 @@ executable NeuralDTSBuilder
   other-modules:
       Main
       NeuralDTSBuilderNoPickle
+      NeuralDTSBuilderTest
       ParamsLoader
       Paths_Haskell
   autogen-modules:
@@ -91,6 +94,7 @@ executable NeuralDTSBuilderNoPickle
   other-modules:
       Main
       NeuralDTSBuilder
+      NeuralDTSBuilderTest
       ParamsLoader
       Paths_Haskell
   autogen-modules:
@@ -108,12 +112,36 @@ executable NeuralDTSBuilderNoPickle
     , text
   default-language: Haskell2010
 
+executable NeuralDTSBuilderTest
+  main-is: NeuralDTSBuilderTest.hs
+  other-modules:
+      Main
+      NeuralDTSBuilder
+      NeuralDTSBuilderNoPickle
+      ParamsLoader
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is NeuralDTSBuilderTest
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
 executable ParamsLoader
   main-is: ParamsLoader.hs
   other-modules:
       Main
       NeuralDTSBuilder
       NeuralDTSBuilderNoPickle
+      NeuralDTSBuilderTest
       Paths_Haskell
   autogen-modules:
       Paths_Haskell
