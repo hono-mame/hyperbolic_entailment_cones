@@ -50,10 +50,10 @@ loadEmbeddings path = do
 
 neuralDTSBuilder :: IO (String -> String -> Float)
 neuralDTSBuilder = do
-    let embPath   = "data/task-0percent_dim-5_class-HypCones_init_class-PoincareNIPS_neg_sampl_strategy-true_neg_lr-0.0003_epochs-300_opt-rsgd_where_not_to_sample-children_neg_edges_attach-parent_lr_init-0.03_epochs_init-100_n_word_vectors.csv"
+    let embPath   = "data/task-90percent_dim-5_class-HypCones_init_class-PoincareNIPS_neg_sampl_strategy-true_neg_non_leaves_lr-0.0001_epochs-300_opt-exp_map_where_not_to_sample-ancestors_neg_edges_attach-child_lr_init-0.03_ep_word_vectors.csv"
     let vocabPath = "data/jp_nouns_head_10000_closure.tsv.vocab"
     let alpha     = 0.1
-    let threshold = 0.5
+    let threshold = 0.00
 
     vocabMap <- loadVocab vocabPath
     embMap   <- loadEmbeddings embPath
@@ -70,8 +70,9 @@ neuralDTSBuilder = do
                             let a1 = angleChild alpha pEmb cEmb
                                 a2 = angleParent alpha pEmb cEmb
                                 score = a1 - a2
-                            -- in if score > threshold then 1.0 else 0.0
-                            in score
+                            -- スコアがthresoldを超えたら含意していない、超えていなかったら含意していると判定
+                            in if score <= threshold then 1.0 else 0.0
+                            -- in score
                         _ -> notFoundValue
                 _ -> notFoundValue
 
@@ -82,5 +83,5 @@ main = do
     oracle <- neuralDTSBuilder
     print $ oracle "有袋動物" "経済"
     print $ oracle "有袋動物" "カンガルー"
-    print $ oracle "有袋動物" "aaa" -- vocabにない単語なので-1.0が返るはず
+    print $ oracle "有袋動物" "aaa" -- vocabにない単語は-1.0が返ってくるように実装
 

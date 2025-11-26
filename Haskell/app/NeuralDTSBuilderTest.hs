@@ -35,12 +35,12 @@ neuralDTSBuilder :: IO (String -> String -> Float)
 neuralDTSBuilder = do
     let embPath   = "data/NeuralDTSBuilderTest.csv"
     let alpha     = 0.1
-    let threshold = 0.5
+    let threshold = 0.00
     let notFoundValue = -1.0 :: Float
 
     embMap <- loadWordEmbeddings embPath
 
-    -- oracl :: (DTTdB.ConName -> DTTdB.ConName -> Float) にしたい (DTTdB.ConNameの呼び出し方わからない)
+    -- oracle :: (DTTdB.ConName -> DTTdB.ConName -> Float) にしたい (DTTdB.ConNameの呼び出し方わからない)
     let oracle :: String -> String -> Float
         oracle parent child =
             case (M.lookup parent embMap, M.lookup child embMap) of
@@ -48,8 +48,9 @@ neuralDTSBuilder = do
                     let a1 = angleChild alpha pEmb cEmb
                         a2 = angleParent alpha pEmb cEmb
                         score = a1 - a2
-                    -- in if score > threshold then 1.0 else 0.0
-                    in score
+                    -- スコアがthresoldを超えたら含意していない、超えていなかったら含意していると判定
+                    in if score <= threshold then 1.0 else 0.0
+                    -- in score
                 _ -> notFoundValue
 
     pure oracle
