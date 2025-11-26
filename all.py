@@ -47,7 +47,7 @@ def EVAL_ONE_MODEL(logger, full_data_filepath, task, model, ranking_alpha, valid
         alphas_to_validate = [1000, 100, 30, 10, 3, 1, 0.3, 0.1, 0]
 
     # Validation
-    eval_result_classif, best_alpha, _, best_test_f1, best_valid_f1 = eval_classification(
+    eval_result_classif, best_alpha, best_optimal_th, best_test_f1, best_valid_f1 = eval_classification(
         logger=logger,
         task=task,
         valid_pos_path=valid_pos_path,
@@ -58,7 +58,7 @@ def EVAL_ONE_MODEL(logger, full_data_filepath, task, model, ranking_alpha, valid
         score_fn=model.kv.is_a_scores_from_indices,
         alphas_to_validate=alphas_to_validate, # 0 means only distance
     )
-    logger.info('BEST classification ALPHA = %.3f' % best_alpha)
+    logger.info('BEST classification ALPHA = %.3f, THRESHOLD = %.6f' % (best_alpha, best_optimal_th))
     logger.info(pretty_print_eval_map(eval_result_classif))
     return float(best_test_f1), float(best_valid_f1), pretty_print_eval_map(eval_result_classif)
 
