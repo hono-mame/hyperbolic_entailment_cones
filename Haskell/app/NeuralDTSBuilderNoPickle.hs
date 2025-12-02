@@ -9,7 +9,7 @@ import qualified Data.Text.Read as TR
 import System.IO
 import Data.Maybe (fromMaybe, mapMaybe)
 import Data.List (foldl')
-import NeuralDTSBuilderUtils (angleChild, angleParent)
+import NeuralDTSBuilderUtils (angleChild, angleParent, sigmoid)
 
 loadVocab :: FilePath -> IO (M.Map String Int)
 loadVocab path = do
@@ -57,7 +57,7 @@ neuralDTSBuilder = do
 
     vocabMap <- loadVocab vocabPath
     embMap   <- loadEmbeddings embPath
-    let notFoundValue = -1.0 :: Float
+    let notFoundValue = 0.0 :: Float -- 確率なので見つからない場合は0にしておく
 
     let oracle :: String -> String -> Float
         oracle parent child =
@@ -70,9 +70,9 @@ neuralDTSBuilder = do
                             let a1 = angleChild alpha pEmb cEmb
                                 a2 = angleParent alpha pEmb cEmb
                                 score = a1 - a2
-                            -- スコアがthresoldを超えたら含意していない、超えていなかったら含意していると判定
-                            in if score <= threshold then 1.0 else 0.0
-                            -- in score
+                                pScore = sigmoid score
+                                pTh    = sigmoid threshold
+                            in pScore
                         _ -> notFoundValue
                 _ -> notFoundValue
 
@@ -83,5 +83,5 @@ main = do
     oracle <- neuralDTSBuilder
     print $ oracle "有袋動物" "経済"
     print $ oracle "有袋動物" "カンガルー"
-    print $ oracle "有袋動物" "aaa" -- vocabにない単語は-1.0が返ってくるように実装
+    print $ oracle "有袋動物" "aaa" -- vocabにない単語なので0.0が返るはず
 

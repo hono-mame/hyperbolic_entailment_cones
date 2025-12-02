@@ -7,7 +7,7 @@ import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import qualified Data.Text.Read as TR
 import Data.Maybe (mapMaybe)
-import NeuralDTSBuilderUtils (angleChild, angleParent)
+import NeuralDTSBuilderUtils (angleChild, angleParent, sigmoid)
 
 -- word,dim1,dim2,dim3,... 形式でロードする
 loadWordEmbeddings :: FilePath -> IO (M.Map String [Float])
@@ -36,7 +36,7 @@ neuralDTSBuilder = do
     let embPath   = "data/NeuralDTSBuilderTest.csv"
     let alpha     = 0.1
     let threshold = 0.00
-    let notFoundValue = -1.0 :: Float
+    let notFoundValue = 0.0 :: Float -- 確率なので見つからない場合は0にしておく
 
     embMap <- loadWordEmbeddings embPath
 
@@ -48,9 +48,9 @@ neuralDTSBuilder = do
                     let a1 = angleChild alpha pEmb cEmb
                         a2 = angleParent alpha pEmb cEmb
                         score = a1 - a2
-                    -- スコアがthresoldを超えたら含意していない、超えていなかったら含意していると判定
-                    in if score <= threshold then 1.0 else 0.0
-                    -- in score
+                        pScore = sigmoid score
+                        pTh    = sigmoid threshold
+                    in pScore
                 _ -> notFoundValue
 
     pure oracle

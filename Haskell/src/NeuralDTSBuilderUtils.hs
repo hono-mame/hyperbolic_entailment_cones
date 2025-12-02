@@ -3,6 +3,7 @@
 module NeuralDTSBuilderUtils
     ( angleChild
     , angleParent
+    , sigmoid
     ) where
 
 import Data.List (zipWith)
@@ -18,6 +19,9 @@ dot xs ys = sum $ zipWith (*) xs ys
 
 clip :: Float -> Float
 clip x = max (-1 + eps) (min (1 - eps) x)
+
+sigmoid :: Float -> Float
+sigmoid x = 1 / (1 + exp x)
 
 angleChild :: Float -> [Float] -> [Float] -> Float
 angleChild k parent child =
