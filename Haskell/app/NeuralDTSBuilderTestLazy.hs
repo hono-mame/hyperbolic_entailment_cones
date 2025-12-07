@@ -1,30 +1,29 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module NeuralDTSBuilderTest where
+module NeuralDTSBuilderTestLazy where
 
 import qualified Data.Map.Strict as M
-import qualified Data.Text as T
-import qualified Data.Text.IO as TIO
+import qualified Data.Text.Lazy as LazyT
+import qualified Data.Text.Lazy.IO as LazyTIO
 import qualified Data.Text.Read as TR
 import Data.Maybe (mapMaybe)
 import NeuralDTSBuilderUtils (angleChild, angleParent, sigmoid)
+import Data.Text.Lazy (toStrict)
 
 -- word,dim1,dim2,dim3,... 形式でロードする
-loadWordEmbeddings :: FilePath -> IO (M.Map T.Text [Float])
+loadWordEmbeddings :: FilePath -> IO (M.Map LazyT.Text [Float])
 loadWordEmbeddings path = do
-    contents <- TIO.readFile path
-    let ls = drop 1 $ T.lines contents
-
+    contents <- LazyTIO.readFile path
+    let ls = drop 1 $ LazyT.lines contents
     let parseFloat t =
-            case TR.double t of
+            case TR.double (LazyT.toStrict t) of
               Right (d, _) -> Just (realToFrac d :: Float)
               _ -> Nothing
 
     let parseLine line =
-            case T.splitOn "," line of
+            case LazyT.splitOn "," line of
               (wordTxt : dimsTxt) ->
                   let dims = mapMaybe parseFloat dimsTxt
-                  -- unpackを削除してT.Text型のままに
                   in Just (wordTxt, dims)
               _ -> Nothing
 
@@ -32,18 +31,17 @@ loadWordEmbeddings path = do
 
 
 -- Embedding（word→embedding）でOracleの実装
-neuralDTSBuilder :: IO (T.Text -> T.Text -> Float)
+neuralDTSBuilder :: IO (LazyT.Text -> LazyT.Text -> Float)
 neuralDTSBuilder = do
     let embPath   = "data/NeuralDTSBuilderTest.csv"
     let alpha     = 0.1
     let threshold = 0.00
-    let notFoundValue = 0.0 :: Float -- 確率なので見つからない場合は0にしておく
+    let notFoundValue = 0.0 :: Float
 
-    -- embMap :: M.Map T.Text [Float]
     embMap <- loadWordEmbeddings embPath
 
     -- oracle :: (DTTdB.ConName -> DTTdB.ConName -> Float) にしたい
-    let oracle :: T.Text -> T.Text -> Float
+    let oracle :: LazyT.Text -> LazyT.Text -> Float
         oracle parent child =
             case (M.lookup parent embMap, M.lookup child embMap) of
                 (Just pEmb, Just cEmb) ->
@@ -56,6 +54,7 @@ neuralDTSBuilder = do
                 _ -> notFoundValue
 
     pure oracle
+
 
 main :: IO ()
 main = do

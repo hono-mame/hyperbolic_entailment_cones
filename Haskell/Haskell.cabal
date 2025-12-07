@@ -47,8 +47,8 @@ executable Haskell-exe
   main-is: Main.hs
   other-modules:
       NeuralDTSBuilder
-      NeuralDTSBuilderNoPickle
       NeuralDTSBuilderTest
+      NeuralDTSBuilderTestLazy
       ParamsLoader
       Paths_Haskell
   autogen-modules:
@@ -70,8 +70,8 @@ executable NeuralDTSBuilder
   main-is: NeuralDTSBuilder.hs
   other-modules:
       Main
-      NeuralDTSBuilderNoPickle
       NeuralDTSBuilderTest
+      NeuralDTSBuilderTestLazy
       ParamsLoader
       Paths_Haskell
   autogen-modules:
@@ -89,35 +89,12 @@ executable NeuralDTSBuilder
     , text
   default-language: Haskell2010
 
-executable NeuralDTSBuilderNoPickle
-  main-is: NeuralDTSBuilderNoPickle.hs
-  other-modules:
-      Main
-      NeuralDTSBuilder
-      NeuralDTSBuilderTest
-      ParamsLoader
-      Paths_Haskell
-  autogen-modules:
-      Paths_Haskell
-  hs-source-dirs:
-      app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is NeuralDTSBuilderNoPickle
-  build-depends:
-      Haskell
-    , base >=4.7 && <5
-    , containers
-    , hasktorch
-    , hasktorch-tools
-    , libtorch-ffi
-    , text
-  default-language: Haskell2010
-
 executable NeuralDTSBuilderTest
   main-is: NeuralDTSBuilderTest.hs
   other-modules:
       Main
       NeuralDTSBuilder
-      NeuralDTSBuilderNoPickle
+      NeuralDTSBuilderTestLazy
       ParamsLoader
       Paths_Haskell
   autogen-modules:
@@ -135,13 +112,36 @@ executable NeuralDTSBuilderTest
     , text
   default-language: Haskell2010
 
+executable NeuralDTSBuilderTestLazy
+  main-is: NeuralDTSBuilderTestLazy.hs
+  other-modules:
+      Main
+      NeuralDTSBuilder
+      NeuralDTSBuilderTest
+      ParamsLoader
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is NeuralDTSBuilderTestLazy
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
 executable ParamsLoader
   main-is: ParamsLoader.hs
   other-modules:
       Main
       NeuralDTSBuilder
-      NeuralDTSBuilderNoPickle
       NeuralDTSBuilderTest
+      NeuralDTSBuilderTestLazy
       Paths_Haskell
   autogen-modules:
       Paths_Haskell
