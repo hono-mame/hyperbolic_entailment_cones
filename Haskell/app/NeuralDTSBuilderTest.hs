@@ -7,10 +7,11 @@ import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import qualified Data.Text.Read as TR
 import Data.Maybe (mapMaybe)
+import Data.List (maximum)
 import NeuralDTSBuilderUtils (angleChild, angleParent, sigmoid)
 
--- word,dim1,dim2,dim3,... 形式でロードする
-loadWordEmbeddings :: FilePath -> IO (M.Map T.Text [Float])
+-- word,dim1,dim2,dim3,... 形式でロードする(単語に対して複数の埋め込みを格納)
+loadWordEmbeddings :: FilePath -> IO (M.Map T.Text [[Float]])
 loadWordEmbeddings path = do
     contents <- TIO.readFile path
     let ls = drop 1 $ T.lines contents
@@ -24,35 +25,43 @@ loadWordEmbeddings path = do
             case T.splitOn "," line of
               (wordTxt : dimsTxt) ->
                   let dims = mapMaybe parseFloat dimsTxt
-                  -- unpackを削除してT.Text型のままに
                   in Just (wordTxt, dims)
               _ -> Nothing
 
-    pure $ M.fromList (mapMaybe parseLine ls)
+    let parsedLines = mapMaybe parseLine ls
+    pure $ M.fromListWith (++) [(word, [dims]) | (word, dims) <- parsedLines]
 
 
--- Embedding（word→embedding）でOracleの実装
+calcPScore :: Float -> [Float] -> [Float] -> Float
+calcPScore alpha pEmb cEmb =
+    let a1 = angleChild alpha pEmb cEmb
+        a2 = angleParent alpha pEmb cEmb
+        score = a1 - a2
+        pScore = sigmoid score
+    in pScore
+
+
 neuralDTSBuilder :: IO (T.Text -> T.Text -> Float)
 neuralDTSBuilder = do
-    let embPath   = "data/NeuralDTSBuilderTest.csv"
+    let embPath   = "data_dag2all/embeddings_dag2all.csv"
     let alpha     = 0.1
     let threshold = 0.00
-    let notFoundValue = 0.0 :: Float -- 確率なので見つからない場合は0にしておく
+    let notFoundValue = 0.0 :: Float
 
-    -- embMap :: M.Map T.Text [Float]
     embMap <- loadWordEmbeddings embPath
 
-    -- oracle :: (DTTdB.ConName -> DTTdB.ConName -> Float) にしたい
     let oracle :: T.Text -> T.Text -> Float
         oracle parent child =
             case (M.lookup parent embMap, M.lookup child embMap) of
-                (Just pEmb, Just cEmb) ->
-                    let a1 = angleChild alpha pEmb cEmb
-                        a2 = angleParent alpha pEmb cEmb
-                        score = a1 - a2
-                        pScore = sigmoid score
-                        pTh    = sigmoid threshold
-                    in pScore
+                (Just pEmbs, Just cEmbs) ->
+                    let allScores = 
+                            [ calcPScore alpha pEmb cEmb 
+                            | pEmb <- pEmbs
+                            , cEmb <- cEmbs
+                            ]
+                    in if null allScores
+                       then notFoundValue
+                       else maximum allScores
                 _ -> notFoundValue
 
     pure oracle
@@ -60,7 +69,14 @@ neuralDTSBuilder = do
 main :: IO ()
 main = do
     oracle <- neuralDTSBuilder
-    print $ oracle "有袋動物" "経済"
+    print $ oracle "車" "消防車"
     print $ oracle "有袋動物" "カンガルー"
-    print $ oracle "有袋動物" "aaa"
-    print $ oracle "艦隊" "アルカリ土類金属"
+    print $ oracle "鳥類" "ツバメ"
+    print $ oracle "果物" "りんご"
+    print $ oracle "生き物" "恐竜"
+    print $ oracle "車" "カンガルー"  -- 関係のない語彙ペア
+    print $ oracle "鳥類" "りんご"
+    print $ oracle "哺乳類" "タイ人"
+    print $ oracle "調味料" "タルタルソース"
+    print $ oracle "調味料" "角砂糖"
+

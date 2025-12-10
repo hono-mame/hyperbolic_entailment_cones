@@ -7,14 +7,15 @@ import qualified Data.Text.Lazy as LazyT
 import qualified Data.Text.Lazy.IO as LazyTIO
 import qualified Data.Text.Read as TR
 import Data.Maybe (mapMaybe)
+import Data.List (maximum)
 import NeuralDTSBuilderUtils (angleChild, angleParent, sigmoid)
-import Data.Text.Lazy (toStrict)
 
--- word,dim1,dim2,dim3,... 形式でロードする
-loadWordEmbeddings :: FilePath -> IO (M.Map LazyT.Text [Float])
+-- word,dim1,dim2,dim3,... 形式でロードする(単語に対して複数の埋め込みを格納)
+loadWordEmbeddings :: FilePath -> IO (M.Map LazyT.Text [[Float]])
 loadWordEmbeddings path = do
     contents <- LazyTIO.readFile path
     let ls = drop 1 $ LazyT.lines contents
+
     let parseFloat t =
             case TR.double (LazyT.toStrict t) of
               Right (d, _) -> Just (realToFrac d :: Float)
@@ -27,30 +28,37 @@ loadWordEmbeddings path = do
                   in Just (wordTxt, dims)
               _ -> Nothing
 
-    pure $ M.fromList (mapMaybe parseLine ls)
+    let parsedLines = mapMaybe parseLine ls
+    pure $ M.fromListWith (++) [(word, [dims]) | (word, dims) <- parsedLines]
 
 
--- Embedding（word→embedding）でOracleの実装
+calcPScore :: Float -> [Float] -> [Float] -> Float
+calcPScore alpha pEmb cEmb =
+    let a1 = angleChild alpha pEmb cEmb
+        a2 = angleParent alpha pEmb cEmb
+        score = a1 - a2
+    in sigmoid score
+
 neuralDTSBuilder :: IO (LazyT.Text -> LazyT.Text -> Float)
 neuralDTSBuilder = do
     let embPath   = "data/NeuralDTSBuilderTest.csv"
     let alpha     = 0.1
-    let threshold = 0.00
     let notFoundValue = 0.0 :: Float
 
     embMap <- loadWordEmbeddings embPath
 
-    -- oracle :: (DTTdB.ConName -> DTTdB.ConName -> Float) にしたい
     let oracle :: LazyT.Text -> LazyT.Text -> Float
         oracle parent child =
             case (M.lookup parent embMap, M.lookup child embMap) of
-                (Just pEmb, Just cEmb) ->
-                    let a1 = angleChild alpha pEmb cEmb
-                        a2 = angleParent alpha pEmb cEmb
-                        score = a1 - a2
-                        pScore = sigmoid score
-                        pTh    = sigmoid threshold
-                    in pScore
+                (Just pEmbs, Just cEmbs) ->
+                    let allScores =
+                            [ calcPScore alpha pEmb cEmb
+                            | pEmb <- pEmbs
+                            , cEmb <- cEmbs
+                            ]
+                    in if null allScores
+                       then notFoundValue
+                       else maximum allScores
                 _ -> notFoundValue
 
     pure oracle
