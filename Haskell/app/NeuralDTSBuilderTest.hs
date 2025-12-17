@@ -44,7 +44,7 @@ calcPScore alpha pEmb cEmb =
 
 neuralDTSBuilder :: IO (T.Text -> T.Text -> Float)
 neuralDTSBuilder = do
-    let embPath   = "F1/Embedding.csv"
+    let embPath   = "F1/Embedding_test.csv"
     let alpha     = 0.1
     let threshold = 0.00
     let notFoundValue = 0.0 :: Float
@@ -85,9 +85,11 @@ main = do
     TIO.putStrLn $ T.replicate 40 "="
     -- Positive examples
     printOracle oracle "車" "スポーツカー"
+    printOracle oracle "車" "消防車"
     printOracle oracle "有袋動物" "カンガルー"
     printOracle oracle "食べ物" "マスカルポーネ"
-    printOracle oracle "果物" "りんご"
+    printOracle oracle "鳥類" "ツバメ"
+    printOracle oracle "鳥" "ツバメ"
     printOracle oracle "生き物" "恐竜"
     printOracle oracle "イヌ" "チワワ"
     printOracle oracle "調味料" "タルタルソース"
