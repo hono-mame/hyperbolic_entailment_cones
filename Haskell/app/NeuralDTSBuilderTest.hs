@@ -9,6 +9,7 @@ import qualified Data.Text.Read as TR
 import Data.Maybe (mapMaybe)
 import Data.List (maximum)
 import NeuralDTSBuilderUtils (angleChild, angleParent, sigmoid)
+import Text.Printf (printf)
 
 -- word,dim1,dim2,dim3,... 形式でロードする(単語に対して複数の埋め込みを格納)
 loadWordEmbeddings :: FilePath -> IO (M.Map T.Text [[Float]])
@@ -43,7 +44,7 @@ calcPScore alpha pEmb cEmb =
 
 neuralDTSBuilder :: IO (T.Text -> T.Text -> Float)
 neuralDTSBuilder = do
-    let embPath   = "data_dag2all/embeddings_dag2all.csv"
+    let embPath   = "data_dim10/processed/processed_TASK-9~2.csv"
     let alpha     = 0.1
     let threshold = 0.00
     let notFoundValue = 0.0 :: Float
@@ -66,17 +67,34 @@ neuralDTSBuilder = do
 
     pure oracle
 
+printOracle :: (T.Text -> T.Text -> Float) -> T.Text -> T.Text -> IO ()
+printOracle oracleFn parent child = do
+    let score = oracleFn parent child
+    let isEntailment = score > 0.5
+    let result = if isEntailment then "包含関係あり (TRUE)" else "包含関係なし (FALSE)"
+
+    putStrLn $ T.unpack parent ++ " > " ++ T.unpack child
+    printf "  スコア (PScore): %.4f\n" score
+    putStrLn $ "  判定: " ++ result
+    putStrLn $ T.unpack (T.replicate 40 "-")
+
 main :: IO ()
 main = do
     oracle <- neuralDTSBuilder
-    print $ oracle "車" "消防車"
-    print $ oracle "有袋動物" "カンガルー"
-    print $ oracle "鳥類" "ツバメ"
-    print $ oracle "果物" "りんご"
-    print $ oracle "生き物" "恐竜"
-    print $ oracle "車" "カンガルー"  -- 関係のない語彙ペア
-    print $ oracle "鳥類" "りんご"
-    print $ oracle "哺乳類" "タイ人"
-    print $ oracle "調味料" "タルタルソース"
-    print $ oracle "調味料" "角砂糖"
+    putStrLn "--- Oracle Test ---"
+    TIO.putStrLn $ T.replicate 40 "="
+    -- Positive examples
+    printOracle oracle "車" "消防車"
+    printOracle oracle "有袋動物" "カンガルー"
+    printOracle oracle "鳥類" "ツバメ"
+    printOracle oracle "果物" "りんご"
+    printOracle oracle "生き物" "恐竜"
+    printOracle oracle "麺類" "パスタ"
+    printOracle oracle "イヌ" "チワワ"
+
+    -- Negative examples
+    printOracle oracle "車" "カンガルー"
+    printOracle oracle "鳥類" "りんご"
+    printOracle oracle "調味料" "タルタルソース"
+    printOracle oracle "調味料" "角砂糖"
 
