@@ -43,9 +43,34 @@ library
     , text
   default-language: Haskell2010
 
+executable CalcF1Score
+  main-is: CalcF1Score.hs
+  other-modules:
+      Main
+      NeuralDTSBuilder
+      NeuralDTSBuilderTest
+      NeuralDTSBuilderTestLazy
+      ParamsLoader
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is CalcF1Score
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
 executable Haskell-exe
   main-is: Main.hs
   other-modules:
+      CalcF1Score
       NeuralDTSBuilder
       NeuralDTSBuilderTest
       NeuralDTSBuilderTestLazy
@@ -69,6 +94,7 @@ executable Haskell-exe
 executable NeuralDTSBuilder
   main-is: NeuralDTSBuilder.hs
   other-modules:
+      CalcF1Score
       Main
       NeuralDTSBuilderTest
       NeuralDTSBuilderTestLazy
@@ -92,6 +118,7 @@ executable NeuralDTSBuilder
 executable NeuralDTSBuilderTest
   main-is: NeuralDTSBuilderTest.hs
   other-modules:
+      CalcF1Score
       Main
       NeuralDTSBuilder
       NeuralDTSBuilderTestLazy
@@ -115,6 +142,7 @@ executable NeuralDTSBuilderTest
 executable NeuralDTSBuilderTestLazy
   main-is: NeuralDTSBuilderTestLazy.hs
   other-modules:
+      CalcF1Score
       Main
       NeuralDTSBuilder
       NeuralDTSBuilderTest
@@ -138,6 +166,7 @@ executable NeuralDTSBuilderTestLazy
 executable ParamsLoader
   main-is: ParamsLoader.hs
   other-modules:
+      CalcF1Score
       Main
       NeuralDTSBuilder
       NeuralDTSBuilderTest

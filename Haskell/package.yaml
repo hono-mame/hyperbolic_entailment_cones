@@ -96,6 +96,17 @@ executables:
     dependencies:
     - Haskell
 
+  CalcF1Score:
+    main:                CalcF1Score.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is CalcF1Score
+    dependencies:
+    - Haskell
+
 tests:
   Haskell-test:
     main:                Spec.hs
