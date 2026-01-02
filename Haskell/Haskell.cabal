@@ -1,0 +1,179 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.38.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           Haskell
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/Haskell#readme>
+homepage:       https://github.com/githubuser/Haskell#readme
+bug-reports:    https://github.com/githubuser/Haskell/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2025 Author name here
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/Haskell
+
+library
+  exposed-modules:
+      Lib
+      NeuralDTSBuilderUtils
+  other-modules:
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
+executable CalcF1Score
+  main-is: CalcF1Score.hs
+  other-modules:
+      Main
+      NeuralDTSBuilderTest
+      NeuralDTSBuilderTestLazy
+      ParamsLoader
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is CalcF1Score
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
+executable Haskell-exe
+  main-is: Main.hs
+  other-modules:
+      CalcF1Score
+      NeuralDTSBuilderTest
+      NeuralDTSBuilderTestLazy
+      ParamsLoader
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
+executable NeuralDTSBuilderTest
+  main-is: NeuralDTSBuilderTest.hs
+  other-modules:
+      CalcF1Score
+      Main
+      NeuralDTSBuilderTestLazy
+      ParamsLoader
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is NeuralDTSBuilderTest
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
+executable NeuralDTSBuilderTestLazy
+  main-is: NeuralDTSBuilderTestLazy.hs
+  other-modules:
+      CalcF1Score
+      Main
+      NeuralDTSBuilderTest
+      ParamsLoader
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is NeuralDTSBuilderTestLazy
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
+executable ParamsLoader
+  main-is: ParamsLoader.hs
+  other-modules:
+      CalcF1Score
+      Main
+      NeuralDTSBuilderTest
+      NeuralDTSBuilderTestLazy
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N -main-is ParamsLoader
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010
+
+test-suite Haskell-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_Haskell
+  autogen-modules:
+      Paths_Haskell
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      Haskell
+    , base >=4.7 && <5
+    , containers
+    , hasktorch
+    , hasktorch-tools
+    , libtorch-ffi
+    , text
+  default-language: Haskell2010

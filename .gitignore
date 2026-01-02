@@ -1,5 +1,6 @@
-/__pycache__
+__pycache__/
 data/wnjpn.db
 logs_*
 saved_models_*
 data/maxn/wnjpn.db
+.DS_Store
