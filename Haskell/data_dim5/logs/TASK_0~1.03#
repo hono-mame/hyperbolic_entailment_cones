@@ -1,0 +1,514 @@
+2025/12/09 05:05:39: Train file : /app/data/maxn/dag2_all_closure.tsv.train_0percent
+2025/12/09 05:05:39: TASK: 0percent
+2025/12/09 05:05:39: 
+Training model: task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+2025/12/09 05:05:39: ================== START INIT ====================
+2025/12/09 05:05:39: Loading relations from train data..
+2025/12/09 05:05:39: Loaded 75825 relations from train data, 74402 nodes
+2025/12/09 05:05:40: Starting burn-in (20 epochs)-------------------------------
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:05:40: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:06:33: Epoch 20: LOSS: 22.18, POS LOSS: 1.67, NEG LOSS: 20.51
+2025/12/09 05:06:33: Time taken for 75825 examples: 2.78 s, 27226.51 examples / s
+2025/12/09 05:06:33: Burn-in finished
+2025/12/09 05:06:33: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:07:30: Epoch 20: LOSS: 15.12, POS LOSS: 0.76, NEG LOSS: 14.35
+2025/12/09 05:07:30: Time taken for 75825 examples: 2.93 s, 25916.37 examples / s
+2025/12/09 05:07:30: Training finished
+2025/12/09 05:07:30: ########################### start INIT eval after 20 epochs ############################################
+2025/12/09 05:07:30: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:07:30: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:07:31: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:07:31: now validating alpha = 1000
+2025/12/09 05:07:31: now validating alpha = 100
+2025/12/09 05:07:32: now validating alpha = 30
+2025/12/09 05:07:33: now validating alpha = 10
+2025/12/09 05:07:34: now validating alpha = 3
+2025/12/09 05:07:34: now validating alpha = 1
+2025/12/09 05:07:35: now validating alpha = 0.3
+2025/12/09 05:07:36: now validating alpha = 0.1
+2025/12/09 05:07:36: now validating alpha = 0
+2025/12/09 05:07:37: BEST classification ALPHA = 0.000, THRESHOLD = 0.606232
+2025/12/09 05:07:37: 0percent: 
+  alpha=0: 
+    VALID: precision: 25.1; recall: 15.0; f1: 18.7
+    TEST: precision: 25.4; recall: 15.1; f1: 18.9
+
+2025/12/09 05:07:37: 
+
+ ======> best so far  f1 INIT test = 18.90; INIT valid = 18.70 - after 20 epochs. 
+2025/12/09 05:07:37: ########################### end INIT eval ##############################################
+2025/12/09 05:07:37: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:08:34: Epoch 20: LOSS: 9.09, POS LOSS: 1.10, NEG LOSS: 7.99
+2025/12/09 05:08:34: Time taken for 75825 examples: 2.75 s, 27550.10 examples / s
+2025/12/09 05:08:34: Training finished
+2025/12/09 05:08:34: ########################### start INIT eval after 40 epochs ############################################
+2025/12/09 05:08:34: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:08:34: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:08:35: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:08:35: now validating alpha = 1000
+2025/12/09 05:08:35: now validating alpha = 100
+2025/12/09 05:08:36: now validating alpha = 30
+2025/12/09 05:08:37: now validating alpha = 10
+2025/12/09 05:08:37: now validating alpha = 3
+2025/12/09 05:08:38: now validating alpha = 1
+2025/12/09 05:08:39: now validating alpha = 0.3
+2025/12/09 05:08:40: now validating alpha = 0.1
+2025/12/09 05:08:40: now validating alpha = 0
+2025/12/09 05:08:41: BEST classification ALPHA = 0.000, THRESHOLD = 1.264875
+2025/12/09 05:08:41: 0percent: 
+  alpha=0: 
+    VALID: precision: 25.2; recall: 16.5; f1: 20.0
+    TEST: precision: 25.6; recall: 16.8; f1: 20.2
+
+2025/12/09 05:08:41: 
+
+ ======> best so far  f1 INIT test = 20.20; INIT valid = 20.00 - after 40 epochs. 
+2025/12/09 05:08:41: ########################### end INIT eval ##############################################
+2025/12/09 05:08:41: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:09:38: Epoch 20: LOSS: 5.46, POS LOSS: 1.45, NEG LOSS: 4.01
+2025/12/09 05:09:38: Time taken for 75825 examples: 2.86 s, 26505.15 examples / s
+2025/12/09 05:09:38: Training finished
+2025/12/09 05:09:38: ########################### start INIT eval after 60 epochs ############################################
+2025/12/09 05:09:38: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:09:38: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:09:39: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:09:39: now validating alpha = 1000
+2025/12/09 05:09:39: now validating alpha = 100
+2025/12/09 05:09:40: now validating alpha = 30
+2025/12/09 05:09:41: now validating alpha = 10
+2025/12/09 05:09:42: now validating alpha = 3
+2025/12/09 05:09:42: now validating alpha = 1
+2025/12/09 05:09:43: now validating alpha = 0.3
+2025/12/09 05:09:44: now validating alpha = 0.1
+2025/12/09 05:09:45: now validating alpha = 0
+2025/12/09 05:09:45: BEST classification ALPHA = 0.000, THRESHOLD = 1.914803
+2025/12/09 05:09:45: 0percent: 
+  alpha=0: 
+    VALID: precision: 25.5; recall: 17.1; f1: 20.5
+    TEST: precision: 25.8; recall: 17.3; f1: 20.7
+
+2025/12/09 05:09:45: 
+
+ ======> best so far  f1 INIT test = 20.70; INIT valid = 20.50 - after 60 epochs. 
+2025/12/09 05:09:45: ########################### end INIT eval ##############################################
+2025/12/09 05:09:45: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:10:43: Epoch 20: LOSS: 3.66, POS LOSS: 1.74, NEG LOSS: 1.92
+2025/12/09 05:10:43: Time taken for 75825 examples: 2.81 s, 26963.21 examples / s
+2025/12/09 05:10:43: Training finished
+2025/12/09 05:10:43: ########################### start INIT eval after 80 epochs ############################################
+2025/12/09 05:10:43: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:10:43: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:10:43: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:10:43: now validating alpha = 1000
+2025/12/09 05:10:44: now validating alpha = 100
+2025/12/09 05:10:45: now validating alpha = 30
+2025/12/09 05:10:46: now validating alpha = 10
+2025/12/09 05:10:46: now validating alpha = 3
+2025/12/09 05:10:47: now validating alpha = 1
+2025/12/09 05:10:48: now validating alpha = 0.3
+2025/12/09 05:10:48: now validating alpha = 0.1
+2025/12/09 05:10:49: now validating alpha = 0
+2025/12/09 05:10:50: BEST classification ALPHA = 0.000, THRESHOLD = 2.479853
+2025/12/09 05:10:50: 0percent: 
+  alpha=0: 
+    VALID: precision: 24.6; recall: 18.2; f1: 20.9
+    TEST: precision: 24.8; recall: 18.3; f1: 21.1
+
+2025/12/09 05:10:50: 
+
+ ======> best so far  f1 INIT test = 21.10; INIT valid = 20.90 - after 80 epochs. 
+2025/12/09 05:10:50: ########################### end INIT eval ##############################################
+2025/12/09 05:10:50: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:11:47: Epoch 20: LOSS: 2.74, POS LOSS: 1.96, NEG LOSS: 0.78
+2025/12/09 05:11:47: Time taken for 75825 examples: 2.81 s, 26964.96 examples / s
+2025/12/09 05:11:47: Training finished
+2025/12/09 05:11:47: ########################### start INIT eval after 100 epochs ############################################
+2025/12/09 05:11:47: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:11:47: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:11:48: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:11:48: now validating alpha = 1000
+2025/12/09 05:11:48: now validating alpha = 100
+2025/12/09 05:11:49: now validating alpha = 30
+2025/12/09 05:11:50: now validating alpha = 10
+2025/12/09 05:11:51: now validating alpha = 3
+2025/12/09 05:11:51: now validating alpha = 1
+2025/12/09 05:11:52: now validating alpha = 0.3
+2025/12/09 05:11:53: now validating alpha = 0.1
+2025/12/09 05:11:53: now validating alpha = 0
+2025/12/09 05:11:54: BEST classification ALPHA = 0.000, THRESHOLD = 2.864278
+2025/12/09 05:11:54: 0percent: 
+  alpha=0: 
+    VALID: precision: 25.2; recall: 18.3; f1: 21.2
+    TEST: precision: 25.4; recall: 18.5; f1: 21.4
+
+2025/12/09 05:11:54: 
+
+ ======> best so far  f1 INIT test = 21.40; INIT valid = 21.20 - after 100 epochs. 
+2025/12/09 05:11:54: ########################### end INIT eval ##############################################
+2025/12/09 05:11:54: 
+
+
+ ======> best OVERALL  f1 INIT test = 21.40; INIT valid = 21.20 - after 100 epochs. 
+2025/12/09 05:11:54: ========================== DONE INIT ================================
+
+
+
+2025/12/09 05:11:54: Loading relations from train data..
+2025/12/09 05:11:55: Loaded 75825 relations from train data, 74402 nodes
+2025/12/09 05:11:55: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000171. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000093. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000005. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000120. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000001. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000014. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000000. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000001. Tol = 0.0001000000
+2025/12/09 05:11:55: Max difference between computed gradients and autograd gradients: 0.0000000142. Tol = 0.0001000000
+2025/12/09 05:12:43: Epoch 20: LOSS: 2.75, POS LOSS: 2.74, NEG LOSS: 0.00
+2025/12/09 05:12:43: Time taken for 75825 examples: 2.51 s, 30198.92 examples / s
+2025/12/09 05:12:43: Training finished
+2025/12/09 05:12:43: ########################### start CONES eval after 120 epochs ############################################
+2025/12/09 05:12:43: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:12:44: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:12:44: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:12:44: now validating alpha = 0.1
+2025/12/09 05:12:45: BEST classification ALPHA = 0.100, THRESHOLD = 2.150742
+2025/12/09 05:12:45: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 21.4; recall: 29.0; f1: 24.6
+    TEST: precision: 21.7; recall: 29.7; f1: 25.1
+
+2025/12/09 05:12:45: 
+
+ ====> best so far  f1 CONES test = 25.10; CONES valid = 24.60 - after 120 epochs.
+2025/12/09 05:12:45: ########################### end CONES eval ##############################################
+2025/12/09 05:12:45: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:13:33: Epoch 20: LOSS: 1.98, POS LOSS: 1.98, NEG LOSS: 0.00
+2025/12/09 05:13:33: Time taken for 75825 examples: 2.42 s, 31373.49 examples / s
+2025/12/09 05:13:33: Training finished
+2025/12/09 05:13:33: ########################### start CONES eval after 140 epochs ############################################
+2025/12/09 05:13:33: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:13:34: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:13:34: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:13:34: now validating alpha = 0.1
+2025/12/09 05:13:35: BEST classification ALPHA = 0.100, THRESHOLD = 2.105678
+2025/12/09 05:13:35: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 21.5; recall: 32.8; f1: 26.0
+    TEST: precision: 21.7; recall: 33.3; f1: 26.3
+
+2025/12/09 05:13:35: 
+
+ ====> best so far  f1 CONES test = 26.30; CONES valid = 26.00 - after 140 epochs.
+2025/12/09 05:13:35: ########################### end CONES eval ##############################################
+2025/12/09 05:13:35: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:14:23: Epoch 20: LOSS: 1.65, POS LOSS: 1.65, NEG LOSS: 0.00
+2025/12/09 05:14:23: Time taken for 75825 examples: 2.41 s, 31475.27 examples / s
+2025/12/09 05:14:23: Training finished
+2025/12/09 05:14:23: ########################### start CONES eval after 160 epochs ############################################
+2025/12/09 05:14:23: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:14:24: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:14:24: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:14:24: now validating alpha = 0.1
+2025/12/09 05:14:25: BEST classification ALPHA = 0.100, THRESHOLD = 2.012299
+2025/12/09 05:14:25: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 22.6; recall: 32.8; f1: 26.7
+    TEST: precision: 22.9; recall: 33.3; f1: 27.1
+
+2025/12/09 05:14:25: 
+
+ ====> best so far  f1 CONES test = 27.10; CONES valid = 26.70 - after 160 epochs.
+2025/12/09 05:14:25: ########################### end CONES eval ##############################################
+2025/12/09 05:14:25: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:15:14: Epoch 20: LOSS: 1.44, POS LOSS: 1.44, NEG LOSS: 0.00
+2025/12/09 05:15:14: Time taken for 75825 examples: 2.42 s, 31384.65 examples / s
+2025/12/09 05:15:14: Training finished
+2025/12/09 05:15:14: ########################### start CONES eval after 180 epochs ############################################
+2025/12/09 05:15:14: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:15:14: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:15:14: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:15:14: now validating alpha = 0.1
+2025/12/09 05:15:15: BEST classification ALPHA = 0.100, THRESHOLD = 1.951196
+2025/12/09 05:15:15: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 22.9; recall: 33.9; f1: 27.3
+    TEST: precision: 23.1; recall: 34.6; f1: 27.7
+
+2025/12/09 05:15:15: 
+
+ ====> best so far  f1 CONES test = 27.70; CONES valid = 27.30 - after 180 epochs.
+2025/12/09 05:15:15: ########################### end CONES eval ##############################################
+2025/12/09 05:15:15: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:16:05: Epoch 20: LOSS: 1.31, POS LOSS: 1.31, NEG LOSS: 0.00
+2025/12/09 05:16:05: Time taken for 75825 examples: 2.57 s, 29489.09 examples / s
+2025/12/09 05:16:05: Training finished
+2025/12/09 05:16:05: ########################### start CONES eval after 200 epochs ############################################
+2025/12/09 05:16:05: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:16:05: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:16:05: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:16:05: now validating alpha = 0.1
+2025/12/09 05:16:06: BEST classification ALPHA = 0.100, THRESHOLD = 1.969367
+2025/12/09 05:16:06: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 21.4; recall: 38.4; f1: 27.5
+    TEST: precision: 21.6; recall: 38.7; f1: 27.7
+
+2025/12/09 05:16:06: 
+
+ ====> best so far  f1 CONES test = 27.70; CONES valid = 27.50 - after 200 epochs.
+2025/12/09 05:16:06: ########################### end CONES eval ##############################################
+2025/12/09 05:16:06: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:16:55: Epoch 20: LOSS: 1.20, POS LOSS: 1.20, NEG LOSS: 0.00
+2025/12/09 05:16:55: Time taken for 75825 examples: 2.43 s, 31210.44 examples / s
+2025/12/09 05:16:55: Training finished
+2025/12/09 05:16:55: ########################### start CONES eval after 220 epochs ############################################
+2025/12/09 05:16:55: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:16:56: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:16:56: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:16:56: now validating alpha = 0.1
+2025/12/09 05:16:57: BEST classification ALPHA = 0.100, THRESHOLD = 1.997744
+2025/12/09 05:16:57: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 20.2; recall: 43.5; f1: 27.6
+    TEST: precision: 20.5; recall: 43.9; f1: 27.9
+
+2025/12/09 05:16:57: 
+
+ ====> best so far  f1 CONES test = 27.90; CONES valid = 27.60 - after 220 epochs.
+2025/12/09 05:16:57: ########################### end CONES eval ##############################################
+2025/12/09 05:16:57: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:17:46: Epoch 20: LOSS: 1.13, POS LOSS: 1.13, NEG LOSS: 0.00
+2025/12/09 05:17:46: Time taken for 75825 examples: 2.49 s, 30480.16 examples / s
+2025/12/09 05:17:46: Training finished
+2025/12/09 05:17:46: ########################### start CONES eval after 240 epochs ############################################
+2025/12/09 05:17:46: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:17:46: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:17:46: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:17:46: now validating alpha = 0.1
+2025/12/09 05:17:47: BEST classification ALPHA = 0.100, THRESHOLD = 1.956636
+2025/12/09 05:17:47: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 20.6; recall: 42.8; f1: 27.8
+    TEST: precision: 20.8; recall: 43.1; f1: 28.0
+
+2025/12/09 05:17:47: 
+
+ ====> best so far  f1 CONES test = 28.00; CONES valid = 27.80 - after 240 epochs.
+2025/12/09 05:17:47: ########################### end CONES eval ##############################################
+2025/12/09 05:17:47: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:18:36: Epoch 20: LOSS: 1.06, POS LOSS: 1.05, NEG LOSS: 0.00
+2025/12/09 05:18:36: Time taken for 75825 examples: 2.43 s, 31151.64 examples / s
+2025/12/09 05:18:36: Training finished
+2025/12/09 05:18:36: ########################### start CONES eval after 260 epochs ############################################
+2025/12/09 05:18:36: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:18:37: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:18:37: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:18:37: now validating alpha = 0.1
+2025/12/09 05:18:38: BEST classification ALPHA = 0.100, THRESHOLD = 1.947433
+2025/12/09 05:18:38: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 20.2; recall: 46.3; f1: 28.2
+    TEST: precision: 20.4; recall: 46.7; f1: 28.4
+
+2025/12/09 05:18:38: 
+
+ ====> best so far  f1 CONES test = 28.40; CONES valid = 28.20 - after 260 epochs.
+2025/12/09 05:18:38: ########################### end CONES eval ##############################################
+2025/12/09 05:18:38: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:19:27: Epoch 20: LOSS: 1.01, POS LOSS: 1.00, NEG LOSS: 0.00
+2025/12/09 05:19:27: Time taken for 75825 examples: 2.43 s, 31144.50 examples / s
+2025/12/09 05:19:27: Training finished
+2025/12/09 05:19:27: ########################### start CONES eval after 280 epochs ############################################
+2025/12/09 05:19:27: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:19:27: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:19:27: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:19:27: now validating alpha = 0.1
+2025/12/09 05:19:28: BEST classification ALPHA = 0.100, THRESHOLD = 1.984374
+2025/12/09 05:19:28: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 19.7; recall: 50.1; f1: 28.2
+    TEST: precision: 19.8; recall: 50.3; f1: 28.4
+
+2025/12/09 05:19:28: 
+
+ ====> best so far  f1 CONES test = 28.40; CONES valid = 28.20 - after 260 epochs.
+2025/12/09 05:19:28: ########################### end CONES eval ##############################################
+2025/12/09 05:19:28: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:20:17: Epoch 20: LOSS: 0.96, POS LOSS: 0.95, NEG LOSS: 0.00
+2025/12/09 05:20:17: Time taken for 75825 examples: 2.43 s, 31217.05 examples / s
+2025/12/09 05:20:17: Training finished
+2025/12/09 05:20:17: ########################### start CONES eval after 300 epochs ############################################
+2025/12/09 05:20:17: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:20:17: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:20:17: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:20:17: now validating alpha = 0.1
+2025/12/09 05:20:18: BEST classification ALPHA = 0.100, THRESHOLD = 1.870190
+2025/12/09 05:20:18: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 20.4; recall: 48.6; f1: 28.8
+    TEST: precision: 20.5; recall: 48.6; f1: 28.9
+
+2025/12/09 05:20:18: 
+
+ ====> best so far  f1 CONES test = 28.90; CONES valid = 28.80 - after 300 epochs.
+2025/12/09 05:20:18: ########################### end CONES eval ##############################################
+2025/12/09 05:20:18: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:21:06: Epoch 20: LOSS: 0.92, POS LOSS: 0.92, NEG LOSS: 0.00
+2025/12/09 05:21:06: Time taken for 75825 examples: 2.41 s, 31473.51 examples / s
+2025/12/09 05:21:06: Training finished
+2025/12/09 05:21:06: ########################### start CONES eval after 320 epochs ############################################
+2025/12/09 05:21:06: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:21:07: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:21:07: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:21:07: now validating alpha = 0.1
+2025/12/09 05:21:08: BEST classification ALPHA = 0.100, THRESHOLD = 1.935544
+2025/12/09 05:21:08: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 19.8; recall: 49.8; f1: 28.4
+    TEST: precision: 20.0; recall: 50.0; f1: 28.6
+
+2025/12/09 05:21:08: 
+
+ ====> best so far  f1 CONES test = 28.90; CONES valid = 28.80 - after 300 epochs.
+2025/12/09 05:21:08: ########################### end CONES eval ##############################################
+2025/12/09 05:21:08: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:21:57: Epoch 20: LOSS: 0.89, POS LOSS: 0.89, NEG LOSS: 0.00
+2025/12/09 05:21:57: Time taken for 75825 examples: 2.46 s, 30843.96 examples / s
+2025/12/09 05:21:57: Training finished
+2025/12/09 05:21:57: ########################### start CONES eval after 340 epochs ############################################
+2025/12/09 05:21:57: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:21:57: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:21:57: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:21:57: now validating alpha = 0.1
+2025/12/09 05:21:58: BEST classification ALPHA = 0.100, THRESHOLD = 1.887631
+2025/12/09 05:21:58: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 19.9; recall: 50.8; f1: 28.6
+    TEST: precision: 20.1; recall: 51.1; f1: 28.9
+
+2025/12/09 05:21:58: 
+
+ ====> best so far  f1 CONES test = 28.90; CONES valid = 28.80 - after 300 epochs.
+2025/12/09 05:21:58: ########################### end CONES eval ##############################################
+2025/12/09 05:21:58: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:22:46: Epoch 20: LOSS: 0.85, POS LOSS: 0.85, NEG LOSS: 0.01
+2025/12/09 05:22:46: Time taken for 75825 examples: 2.43 s, 31264.57 examples / s
+2025/12/09 05:22:46: Training finished
+2025/12/09 05:22:46: ########################### start CONES eval after 360 epochs ############################################
+2025/12/09 05:22:46: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:22:47: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:22:47: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:22:47: now validating alpha = 0.1
+2025/12/09 05:22:48: BEST classification ALPHA = 0.100, THRESHOLD = 1.873343
+2025/12/09 05:22:48: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 20.1; recall: 52.2; f1: 29.0
+    TEST: precision: 20.2; recall: 52.0; f1: 29.1
+
+2025/12/09 05:22:48: 
+
+ ====> best so far  f1 CONES test = 29.10; CONES valid = 29.00 - after 360 epochs.
+2025/12/09 05:22:48: ########################### end CONES eval ##############################################
+2025/12/09 05:22:48: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:23:36: Epoch 20: LOSS: 0.82, POS LOSS: 0.81, NEG LOSS: 0.01
+2025/12/09 05:23:36: Time taken for 75825 examples: 2.42 s, 31389.23 examples / s
+2025/12/09 05:23:36: Training finished
+2025/12/09 05:23:36: ########################### start CONES eval after 380 epochs ############################################
+2025/12/09 05:23:36: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:23:37: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:23:37: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:23:37: now validating alpha = 0.1
+2025/12/09 05:23:38: BEST classification ALPHA = 0.100, THRESHOLD = 1.904132
+2025/12/09 05:23:38: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 19.5; recall: 57.0; f1: 29.1
+    TEST: precision: 19.6; recall: 56.9; f1: 29.2
+
+2025/12/09 05:23:38: 
+
+ ====> best so far  f1 CONES test = 29.20; CONES valid = 29.10 - after 380 epochs.
+2025/12/09 05:23:38: ########################### end CONES eval ##############################################
+2025/12/09 05:23:38: Starting training (20 epochs)----------------------------------------
+2025/12/09 05:24:27: Epoch 20: LOSS: 0.82, POS LOSS: 0.82, NEG LOSS: 0.01
+2025/12/09 05:24:27: Time taken for 75825 examples: 2.41 s, 31420.03 examples / s
+2025/12/09 05:24:27: Training finished
+2025/12/09 05:24:27: ########################### start CONES eval after 400 epochs ############################################
+2025/12/09 05:24:27: MODEL = task:0percent, dim:5, class:HypCones, init_class:PoincareNIPS, neg_sampl_strategy:true_neg, lr:0.0003, epochs:300, opt:rsgd, where_not_to_sample:children, neg_edges_attach:parent, lr_init:0.03, epochs_init:100, neg_sampl_strategy_init:true_neg
+
+
+2025/12/09 05:24:27: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.valid  neg = /app/data/maxn/dag2_all_closure.tsv.valid_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:24:27: eval datasets file pos = /app/data/maxn/dag2_all_closure.tsv.test  neg = /app/data/maxn/dag2_all_closure.tsv.test_neg; eval num rels pos = 29385  neg = 293850
+2025/12/09 05:24:27: now validating alpha = 0.1
+2025/12/09 05:24:28: BEST classification ALPHA = 0.100, THRESHOLD = 1.898248
+2025/12/09 05:24:28: 0percent: 
+  alpha=0.1: 
+    VALID: precision: 20.1; recall: 53.1; f1: 29.1
+    TEST: precision: 20.2; recall: 53.2; f1: 29.3
+
+2025/12/09 05:24:28: 
+
+ ====> best so far  f1 CONES test = 29.20; CONES valid = 29.10 - after 380 epochs.
+2025/12/09 05:24:28: ########################### end CONES eval ##############################################
+2025/12/09 05:24:28: 
+
+ ======> best OVERALL  f1 CONES test = 29.20; CONES valid = 29.10 - after 380 epochs.
+2025/12/09 05:24:28: Saving combined word vectors to /app/saved_models/task-0percent_dim-5_class-HypCones_init_class-PoincareNIPS_neg_sampl_strategy-true_neg_lr-0.0003_epochs-300_opt-rsgd_where_not_to_sample-children_neg_edges_attach-parent_lr_init-0.03_epochs_init-100_n_word_vectors.csv...
+2025/12/09 05:24:28: Successfully saved combined data to /app/saved_models/task-0percent_dim-5_class-HypCones_init_class-PoincareNIPS_neg_sampl_strategy-true_neg_lr-0.0003_epochs-300_opt-rsgd_where_not_to_sample-children_neg_edges_attach-parent_lr_init-0.03_epochs_init-100_n_word_vectors.csv
