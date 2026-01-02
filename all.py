@@ -1,5 +1,9 @@
+from xml.parsers.expat import model
 from joblib import Parallel, delayed
 import multiprocessing
+import csv
+import pickle
+import torch
 
 from params import *
 from eucl_simple_model import *
@@ -12,40 +16,38 @@ from eval import *
 from relations import *
 from utils import *
 
-############## Data directories ############
+# Directories
 current_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 data_directory = os.path.join(current_directory, 'data', 'maxn') # Data downloaded from https://github.com/facebookresearch/poincare-embeddings
 models_directory = os.path.join(current_directory, 'saved_models')
 
-# p : list of pairs
+# (key, value) のペアリスト（p）を読みやすい文字列に変換
 def pretty_params(p, per_line=100):
     param_str_list = [('%s:%s' % (str(key), str(value))) for (key,value) in p]
     return '\n'.join(', '.join(param_str_list[per_line * i: per_line * (i + 1)]) for i in
                                   range(1 + int(len(param_str_list) / per_line)))
 
 
-###############################################################################
-
+# 与えられたモデルを使って評価（分類タスクの検証・テスト）を行い、最適な閾値（alpha）を選ぶ
 def EVAL_ONE_MODEL(logger, full_data_filepath, task, model, ranking_alpha, validate_alphas):
-    if task == 'reconstruction':
+    if task == 'reconstruction': # reconstruction の時は完全閉包を使用
         valid_pos_path=full_data_filepath + '.full_transitive'
         valid_neg_path=full_data_filepath + '.full_neg'
         test_pos_path=full_data_filepath + '.full_transitive'
         test_neg_path=full_data_filepath + '.full_neg'
-    else:
+    else:   # classification タスクの時は通常の分割データを使用
         valid_pos_path=full_data_filepath + '.valid'
         valid_neg_path=full_data_filepath + '.valid_neg'
         test_pos_path=full_data_filepath + '.test'
         test_neg_path=full_data_filepath + '.test_neg'
 
-    ######## Classification #########
     if not validate_alphas:
         alphas_to_validate = [ranking_alpha]
     else:
         alphas_to_validate = [1000, 100, 30, 10, 3, 1, 0.3, 0.1, 0]
 
     # Validation
-    eval_result_classif, best_alpha, _, best_test_f1, best_valid_f1 = eval_classification(
+    eval_result_classif, best_alpha, best_optimal_th, best_test_f1, best_valid_f1 = eval_classification(
         logger=logger,
         task=task,
         valid_pos_path=valid_pos_path,
@@ -56,7 +58,7 @@ def EVAL_ONE_MODEL(logger, full_data_filepath, task, model, ranking_alpha, valid
         score_fn=model.kv.is_a_scores_from_indices,
         alphas_to_validate=alphas_to_validate, # 0 means only distance
     )
-    logger.info('BEST classification ALPHA = %.3f' % best_alpha)
+    logger.info('BEST classification ALPHA = %.3f, THRESHOLD = %.6f' % (best_alpha, best_optimal_th))
     logger.info(pretty_print_eval_map(eval_result_classif))
     return float(best_test_f1), float(best_valid_f1), pretty_print_eval_map(eval_result_classif)
 
@@ -77,6 +79,7 @@ def train_eval_one_model(logger_name, model_name, new_params, output_file):
         logger.warning('File %s exists, skipping' % output_file)
         return
 
+    # params.py の内容を辞書型に変換
     params = default_params.copy()
     for key,value in new_params:
         params[key] = value
@@ -93,20 +96,20 @@ def train_eval_one_model(logger_name, model_name, new_params, output_file):
     logger.info('TASK: ' + params['task'])
     logger.info('\nTraining model: ' + model_name)
 
-    train_data = Relations(train_path, reverse=False)
+    train_data = Relations(train_path, reverse=False) # これはrelations.py で実装されている
 
 ######################################################  INIT #####################################################################
     logger.info('================== START INIT ====================')
 
-    if params['class'] == 'OrderEmb':
+    if params['class'] == 'OrderEmb': # OrderEmb は初期化不要
         params['epochs_init'] = 0
         params['epochs_init_burn_in'] = 0
 
 
 
-    assert params['init_class'] in ['PoincareNIPS', 'EuclNIPS']
+    assert params['init_class'] in ['PoincareNIPS', 'EuclNIPS'] # 初期化モデルは PoincareNIPS か EuclNIPS のみ
 
-    if params['init_class'] == 'PoincareNIPS':
+    if params['init_class'] == 'PoincareNIPS': # PoincareNIPS による初期化
         model = PoincareModel(train_data=train_data,
                               dim=params['dim'],
                               logger=logger,
@@ -192,7 +195,7 @@ def train_eval_one_model(logger_name, model_name, new_params, output_file):
         cls = OrderModel
 
 
-    if cls == OrderModel:
+    if cls == OrderModel: # OrderEmb の場合だけ特殊
         model = OrderModel(train_data=train_data,
                            dim=params['dim'],
                            init_range=(-0.1, 0.1),
@@ -271,10 +274,72 @@ def train_eval_one_model(logger_name, model_name, new_params, output_file):
 
     logger.info('\n\n ======> best OVERALL ' + best_str)
 
-    # Save the model
+    # Save the model (as CSV)
     if params['save']:
-        model.save(output_file)
+        os.makedirs(models_directory, exist_ok=True)
+        base_filepath = os.path.splitext(output_file)[0]
+        combined_filepath = base_filepath + "_word_vectors.csv"
 
+        try:
+            # 1. 必要なデータをモデルから取得
+            vectors = model.kv.syn0          # (N, D) の Numpy 配列 (N=語彙数, D=次元数)
+            vocabulary = model.kv.index2word  # (N) の Python リスト
+            num_dims = vectors.shape[1]       # ベクトルの次元数を取得 (例: 5)
+
+            # 2. CSVのヘッダー行を作成
+            # (例: ["word", "dim1", "dim2", "dim3", "dim4", "dim5"])
+            header = ["word"] + [f"dim{i+1}" for i in range(num_dims)]
+
+            # 3. 1つのCSVファイルに書き込む
+            logger.info(f"Saving combined word vectors to {combined_filepath}...")
+            
+            # newline='' はCSV書き込みのお作法です
+            with open(combined_filepath, "w", encoding='utf-8', newline='') as f:
+                writer = csv.writer(f)
+                
+                # 3a. ヘッダーを書き込む
+                writer.writerow(header)
+                
+                # 3b. 1行ずつ「単語」と「ベクトル」を書き込む
+                # vocabulary の i 番目の単語と、vectors の i 番目の行を組み合わせる
+                for i in range(len(vocabulary)):
+                    word = vocabulary[i]
+                    vector_list = vectors[i].tolist() # Numpy配列(1行)をPythonリストに変換
+                    
+                    # (例: ["cat.n.01", 0.123, -0.456, ...])
+                    writer.writerow([word] + vector_list)
+
+            logger.info(f"Successfully saved combined data to {combined_filepath}")
+
+        except Exception as e:
+            logger.error(f"Failed to save combined CSV: {e}")
+
+    # .pt 形式で保存
+    if params['save']:
+        try:
+            pickle_filepath = base_filepath + "_model.pt"
+
+            # vectors を numpy -> torch.Tensor に変換
+            vectors_tensor = torch.from_numpy(model.kv.syn0).cpu()
+            #vectors_np = model.kv.syn0.astype('float32')
+            #vectors_tensor = torch.from_numpy(vectors_np).to('cuda')
+
+            save_dict = {
+                "vectors": vectors_tensor,
+                "vocab": model.kv.index2word,
+                "best_init_test_f1": best_test_f1_init,
+                "best_init_valid_f1": best_valid_f1_init,
+                "best_cones_test_f1": best_test_f1,
+                "best_cones_valid_f1": best_valid_f1,
+                "best_alpha": getattr(model, "K", None),
+                "params": params,
+            }
+
+            # torch.save を採用(Tensorに対応するため)
+            torch.save(save_dict, pickle_filepath)
+
+        except Exception as e:
+            logger.error(f"Failed to save pickle: {e}")
 
     results_strings = ['best ' + best_str_init + ' ; best ' + best_str]
     results_strings.append(('\n >>>>>>>>> INIT = \n%s \n---------------------\n' +
@@ -296,8 +361,9 @@ for task in [ '0percent', '10percent', '25percent', '50percent', '90percent']:
 
         model_name = pretty_params(new_params, per_line=len(new_params))
         logger_name = ';'.join(['%s:%s' % (key, value) for (key, value) in new_params])
-        model_files[model_name] = os.path.join(models_directory, logger_name[:200])
-
+        safe_filename = logger_name.replace(':', '-').replace(';', '_')
+        safe_filename_with_ext = safe_filename[:200] + ".pkl"
+        model_files[model_name] = os.path.join(models_directory, safe_filename_with_ext)
         model_params_list.append((logger_name, model_name, new_params, model_files[model_name]))
 
 # Train & eval in parallel
