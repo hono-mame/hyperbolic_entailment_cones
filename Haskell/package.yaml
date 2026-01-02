@@ -63,17 +63,6 @@ executables:
     dependencies:
     - Haskell
 
-  NeuralDTSBuilder:
-    main:                NeuralDTSBuilder.hs
-    source-dirs:         app
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
-    - -main-is NeuralDTSBuilder
-    dependencies:
-    - Haskell
-
   NeuralDTSBuilderTestLazy:
     main:                NeuralDTSBuilderTestLazy.hs
     source-dirs:         app
